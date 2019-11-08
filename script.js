@@ -1,6 +1,5 @@
-// var newDiv = $("<div>");
+var currentDay = document.querySelector("#currentDay");
 
-// newDiv.text("A pleasure to meet you!");
 
 var nineAm = document.querySelector("#nineAm");
 var nineButton = document.querySelector("#nine-submit");
@@ -20,6 +19,8 @@ var fourPm = document.querySelector("#fourPm");
 var fourButton = document.querySelector("#four-submit");
 var fivePm = document.querySelector("#fivePm");
 var fiveButton = document.querySelector("#five-submit");
+
+
 
 renderToDo();
 

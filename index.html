@@ -107,6 +107,17 @@
 
     <script src="script.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment-with-locales.min.js"></script>
+    <script>
+
+        var currentDay = document.querySelector("#currentDay");
+
+        const m = moment();
+        currentDay.textContent = m.format("dddd MMM Do YYYY");
+
+console.log(m.format("dddd MMM Mo YYYY"));
+console.log(m.toString());
+    
+    </script>
   </body>
 </html>
