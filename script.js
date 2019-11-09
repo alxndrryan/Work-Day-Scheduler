@@ -65,14 +65,6 @@ function renderToDo(){
     fivePm.textContent = fivetodos;
 };
 
-// var ninetodos = localStorage.getItem("ninetodos");
-
-// ninetodos = nineAm.value;
-
-// var tentodos = localStorage.getItem("tentodos");
-
-// tentodos = tenAm.value;
-
 
 
 //BUTTONS
