@@ -1,138 +1,73 @@
-var currentDay = document.querySelector("#currentDay");
+// Counter Script: Global Operators
+var hourlyArray;
+var currentTime = moment();
+var currentHour;
+var textBlock = $(".col-8");
+var plannerTask = $("textarea");
+$.each(plannerTask, function () {
+    this.value = "";
+});
 
-
-var nineAm = document.querySelector("#nineAm");
-var nineButton = document.querySelector("#nine-submit");
-var tenAm = document.querySelector("#tenAm");
-var tenButton = document.querySelector("#ten-submit");
-var eleAm = document.querySelector("#eleAm");
-var eleButton = document.querySelector("#ele-submit");
-var twePm = document.querySelector("#twePm");
-var tweButton = document.querySelector("#twe-submit");
-var onePm = document.querySelector("#onePm");
-var oneButton = document.querySelector("#one-submit");
-var twoPm = document.querySelector("#twoPm");
-var twoButton = document.querySelector("#two-submit");
-var threePm = document.querySelector("#threePm");
-var threeButton = document.querySelector("#three-submit");
-var fourPm = document.querySelector("#fourPm");
-var fourButton = document.querySelector("#four-submit");
-var fivePm = document.querySelector("#fivePm");
-var fiveButton = document.querySelector("#five-submit");
-
-
-
-renderToDo();
-
-
-//RENDER FUNCTION
-
-function renderToDo(){
-    var ninetodos = localStorage.getItem("ninetodos");
-
-    nineAm.textContent = ninetodos;
-
-    var tentodos = localStorage.getItem("tentodos");
-
-    tenAm.textContent = tentodos;
-    
-    var eletodos = localStorage.getItem("eletodos");
-
-    eleAm.textContent = eletodos;
-
-    var twetodos = localStorage.getItem("twetodos");
-
-    twePm.textContent = twetodos;
-
-    var onetodos = localStorage.getItem("onetodos");
-
-    onePm.textContent = onetodos;
-
-    var twotodos = localStorage.getItem("twotodos");
-
-    twoPm.textContent = twotodos;
-
-    var threetodos = localStorage.getItem("threetodos");
-
-    threePm.textContent = threetodos;
-
-    var fourtodos = localStorage.getItem("fourtodos");
-
-    fourPm.textContent = fourtodos;
-
-    var fivetodos = localStorage.getItem("fivetodos");
-
-    fivePm.textContent = fivetodos;
+// If a local hourly tasks exist, import them, otherwise initialize the array
+if (localStorage.getItem("localHourlyTasks")) {
+    hourlyArray = JSON.parse(localStorage.getItem("localHourlyTasks"));
+} else {
+    hourlyArray = [];
 };
 
-// var ninetodos = localStorage.getItem("ninetodos");
+// Write the current date by "DayofWeek, Month DayofMonth"
+$("#currentDay").text(`${currentTime.format('dddd, MMMM Do')}`);
 
-// ninetodos = nineAm.value;
+// The current hour is offset by 9 to match the array indicies, since 9AM is the first slot
+function updateCurrentScheduleTime() {
+    textBlock.removeClass('past present future');
+    $.each(textBlock, function (scheduleBlockHour) {
+        if (scheduleBlockHour < (currentTime.hour() - 9)) {
+            $(this).addClass('past');
+        } else if (scheduleBlockHour == (currentTime.hour() - 9)) {
+            $(this).addClass('present');
+        } else {
+            $(this).addClass('future');
+        }
+    });
+    currentHour = currentTime.hour();
+};
 
-// var tentodos = localStorage.getItem("tentodos");
+function updateLocalStorage() {
+    event.preventDefault();
+    let btnIndex = Number($(this).attr('id'));
 
-// tentodos = tenAm.value;
+    if (plannerTask[btnIndex].value.trim() != "") {
+        hourlyArray[btnIndex] = {
+            time: $(".hour")[btnIndex].textContent.trim(),
+            task: plannerTask[btnIndex].value
+        };
 
+        localStorage.setItem("localHourlyTasks", JSON.stringify(hourlyArray));
+    };
+};
 
+// Write saved tasks to the planner on page load
+function writeCurrentTasks() {
+    $.each(hourlyArray, function (i) {
+        if (hourlyArray[i]) {
+            plannerTask[i].value = hourlyArray[i].task;
+        };
+    });
+};
 
-//BUTTONS
+// Updates the current time every minute and updates the planner style every hour
+setInterval(function () {
+    currentTime = moment();
+    if (currentHour < currentTime.hour()) {
+        updateCurrentScheduleTime();
+    } else if (currentHour > currentTime.hour()) {
+        updateCurrentScheduleTime();
+        $("#currentDay").text(`${currentTime.format('dddd, MMMM Do')}`);
+    }
+}, 1000);
 
-nineButton.addEventListener("click", function(){
-    ninetodos = nineAm.value;
-
-    localStorage.setItem("ninetodos", ninetodos);
-});
-
-tenButton.addEventListener("click", function(){
-    tentodos = tenAm.value;
-
-    localStorage.setItem("tentodos", tentodos);
-});
-
-eleButton.addEventListener("click", function(){
-    eletodos = eleAm.value;
-
-    localStorage.setItem("eletodos", eletodos);
-});
-
-tweButton.addEventListener("click", function(){
-    twetodos = twePm.value;
-
-    localStorage.setItem("twetodos", twetodos);
-});
-
-oneButton.addEventListener("click", function(){
-    onetodos = onePm.value;
-
-    localStorage.setItem("onetodos", onetodos);
-});
-
-twoButton.addEventListener("click", function(){
-    twotodos = twoPm.value;
-
-    localStorage.setItem("twotodos", twotodos);
-});
-
-threeButton.addEventListener("click", function(){
-    threetodos = threePm.value;
-
-    localStorage.setItem("threetodos", threetodos);
-});
-
-fourButton.addEventListener("click", function(){
-    fourtodos = fourPm.value;
-
-    localStorage.setItem("fourtodos", fourtodos);
-});
-
-fiveButton.addEventListener("click", function(){
-    fivetodos = fivePm.value;
-
-    localStorage.setItem("fivetodos", fivetodos);
-});
-
-renderToDo();
-
-
-
-//when button clicked, save text
+// Initial function calls and event listener
+updateCurrentScheduleTime();
+writeCurrentTasks();
+$("button").click(updateLocalStorage);
