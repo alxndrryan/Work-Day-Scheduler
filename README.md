@@ -1,4 +1,4 @@
-# Work Day Scheduler
+# Workday Scheduler
 
 This project is an application available on the user's browser. It allows for the user to enter and store their tasks for the day. The timeframe is set to typical business hours (9am - 5pm).
 
