@@ -12,4 +12,4 @@ By creating this project I have reinforced my understanding of storing informati
 - [JQuery](https://jquery.com/) - JavaScript library
 - [Moment.js](https://momentjs.com/) - JavaScript library for displaying dates and times
 
-![](worday-scheduler.png)
+![](workday-scheduler.png)
