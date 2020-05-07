@@ -1,6 +1,6 @@
 # Workday Scheduler
 
-[Workday Scheduler](https://alxndryn.github.io/Work-Day-Scheduler/)
+[Workday Scheduler Website](https://alxndryn.github.io/Work-Day-Scheduler/)
 
 This project is an application available on the user's browser. It allows for the user to enter and store their tasks for the day. The timeframe is set to typical business hours (9am - 5pm).
 
